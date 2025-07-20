@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigiCare Logo Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        canvas {
+            border: 1px solid #ddd;
+            margin: 10px;
+        }
+        button {
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #1565c0;
+        }
+        .download-section {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏥 DigiCare Logo Generator</h1>
+        <p>Generate app icons for your DigiCare mobile app</p>
+        
+        <div>
+            <button onclick="generateLogo(1024)">Generate 1024x1024</button>
+            <button onclick="generateLogo(512)">Generate 512x512</button>
+            <button onclick="generateLogo(192)">Generate 192x192</button>
+            <button onclick="generateLogo(144)">Generate 144x144</button>
+            <button onclick="generateAllLogos()">Generate All Sizes</button>
+        </div>
+        
+        <div id="canvasContainer"></div>
+        
+        <div class="download-section">
+            <h3>Instructions:</h3>
+            <ol style="text-align: left;">
+                <li>Click "Generate All Sizes" to create all required icons</li>
+                <li>Right-click on each canvas and select "Save image as..."</li>
+                <li>Save with appropriate names (icon-1024.png, icon-512.png, etc.)</li>
+                <li>Replace the existing icons in the assets folder</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        function generateLogo(size) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // Background
+            ctx.fillStyle = '#1976d2';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Medical cross
+            ctx.fillStyle = '#ffffff';
+            const crossSize = size * 0.4;
+            const crossX = (size - crossSize) / 2;
+            const crossY = (size - crossSize) / 2;
+            
+            // Vertical part of cross
+            ctx.fillRect(crossX + crossSize * 0.4, crossY, crossSize * 0.2, crossSize);
+            // Horizontal part of cross
+            ctx.fillRect(crossX, crossY + crossSize * 0.4, crossSize, crossSize * 0.2);
+            
+            // Add "DC" text
+            ctx.fillStyle = '#1976d2';
+            ctx.font = `bold ${size * 0.15}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.fillText('DC', size / 2, size * 0.8);
+            
+            // Add size label
+            ctx.fillStyle = '#666';
+            ctx.font = `${size * 0.05}px Arial`;
+            ctx.fillText(`${size}x${size}`, size / 2, size - 10);
+            
+            // Add to container
+            const container = document.getElementById('canvasContainer');
+            container.appendChild(canvas);
+            
+            return canvas;
+        }
+        
+        function generateAllLogos() {
+            // Clear container
+            document.getElementById('canvasContainer').innerHTML = '';
+            
+            // Generate all sizes
+            const sizes = [1024, 512, 192, 144, 96, 72, 48];
+            sizes.forEach(size => {
+                generateLogo(size);
+            });
+        }
+        
+        // Generate default logo on load
+        window.onload = function() {
+            generateLogo(512);
+        };
+    </script>
+</body>
+</html> 
